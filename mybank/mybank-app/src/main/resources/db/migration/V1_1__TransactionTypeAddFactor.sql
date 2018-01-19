@@ -1,1 +1,1 @@
-ALTER TABLE `mybank`.`transaction_type` ADD COLUMN `factor` TINYINT NOT NULL DEFAULT 1 AFTER `description`;
+ALTER TABLE transaction_type ADD COLUMN factor TINYINT NOT NULL DEFAULT 1 AFTER description;

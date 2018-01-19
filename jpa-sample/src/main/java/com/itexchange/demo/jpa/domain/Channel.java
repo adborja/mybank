@@ -10,7 +10,7 @@ import javax.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "customer")
-public class Customer {
+public class Channel {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)

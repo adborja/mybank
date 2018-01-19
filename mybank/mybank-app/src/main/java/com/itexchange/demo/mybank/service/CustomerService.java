@@ -13,7 +13,7 @@ public class CustomerService {
 
 	@Autowired
 	private CustomerDAO customerDAO;
-
+	
 	public void save(CustomerDto customer) {
 		customerDAO.save(new Customer(0, customer.getName(), customer.getSurname(), customer.getCustomerId(),
 				customer.getEmail(), customer.getMobile(), customer.getPhone(), customer.getPassword()));

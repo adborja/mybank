@@ -20,7 +20,10 @@ public class CustomerDAOImpl extends BaseDAO implements CustomerDAO {
 
 	@Override
 	public Customer save(Customer customer) {
-		return null;
+		em.getTransaction().begin();
+		em.persist(customer);
+		em.getTransaction().commit();
+		return customer;
 	}
 
 	@Override
