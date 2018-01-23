@@ -2,6 +2,7 @@ package com.itexchange.demo.mybank.dao;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import java.util.List;
 import java.util.Random;
 
 import org.junit.Before;
@@ -13,6 +14,7 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import com.itexchange.demo.mybank.domain.Customer;
+import com.itexchange.demo.mybank.domain.dto.CustomerNames;
 
 @RunWith(SpringRunner.class)
 @DataJpaTest
@@ -55,5 +57,13 @@ public class CustomerDAOTest {
 		Customer found = customerDAO.findByCustomerId(customerId);
 		assertThat(found.getName()).isEqualTo(DEFAULT_CUSTOMER_NAME);
 		assertThat(found.getCustomerId()).isEqualTo(customerId);
+	}
+	
+	@Test
+	public void testGetCustomerNames() {
+		List<CustomerNames> customerNames = customerDAO.findCustomerNames();
+		assertThat(customerNames).isNotEmpty();
+		assertThat(customerNames.get(0).getName()).isEqualTo("John");
+		assertThat(customerNames.get(0).getSurname()).isEqualTo("Lydon");
 	}
 }
