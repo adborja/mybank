@@ -3,7 +3,6 @@ package com.itexchange.demo.mybank.dao;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.Assert.assertNotNull;
 
-import java.util.Random;
 import java.util.List;
 
 import org.junit.Before;
@@ -15,8 +14,6 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import com.itexchange.demo.mybank.domain.Product;
-
-import static org.assertj.core.api.Assertions.assertThat;
 
 @RunWith(SpringRunner.class)
 @DataJpaTest
@@ -49,17 +46,17 @@ public class ProductDAOTest {
 		assertNotNull(found.getId());
 	}
 
-		@Test
+	@Test
 	public void testFindAll() {
-		List<Product> products = productDAO.findAll();
-		
+		List<Product> products = productDao.findAll();
+
 		assertThat(products).isNotEmpty();
 		assertThat(products.get(0).getName().trim()).isEqualTo("Savings Account");
 	}
-	
+
 	@Test
 	public void testFindAllActive() {
-		List<Product> products = productDAO.findAllActive();
+		List<Product> products = productDao.findAllActive();
 		assertThat(products).isNotEmpty();
 		assertThat(products.get(0).getName().trim()).isEqualTo("Savings Account");
 	}

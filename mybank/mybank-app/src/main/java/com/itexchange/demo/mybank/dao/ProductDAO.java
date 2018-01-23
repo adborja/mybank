@@ -3,15 +3,14 @@ package com.itexchange.demo.mybank.dao;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.persistence.Query;
-import javax.persistence.TypedQuery;
 import javax.persistence.NoResultException;
+import javax.persistence.TypedQuery;
 import javax.transaction.Transactional;
+
+import org.springframework.stereotype.Component;
 
 import com.itexchange.demo.mybank.domain.Product;
 import com.itexchange.demo.mybank.exception.ObjectNotFoundException;
-import org.springframework.stereotype.Component;
-
 
 @Component
 public class ProductDAO extends BaseDAO {
