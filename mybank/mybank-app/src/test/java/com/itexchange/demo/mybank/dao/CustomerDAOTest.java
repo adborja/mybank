@@ -11,6 +11,7 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import com.itexchange.demo.mybank.domain.Customer;
@@ -18,6 +19,7 @@ import com.itexchange.demo.mybank.domain.dto.CustomerNames;
 
 @RunWith(SpringRunner.class)
 @DataJpaTest
+@ActiveProfiles("test")
 public class CustomerDAOTest {
 
 	private static final String DEFAULT_CUSTOMER_EMAIL = "myemail@domain.com";
@@ -41,15 +43,9 @@ public class CustomerDAOTest {
 	@Test
 	public void testSave() {
 		String customerId = "" + new Random().nextInt(100000);
-		Customer customer = Customer.builder()
-				.customerId(customerId)
-				.email(DEFAULT_CUSTOMER_EMAIL)
-				.mobile(DEFAULT_CUSTOMER_MOBILE)
-				.name(DEFAULT_CUSTOMER_NAME)
-				.password(DEFAULT_CUSTOMER_PASSWORD)
-				.phone(DEFAULT_CUSTOMER_PHONE)
-				.surname(DEFAULT_CUSTOMER_SURNAME)
-				.build();
+		Customer customer = Customer.builder().customerId(customerId).email(DEFAULT_CUSTOMER_EMAIL)
+				.mobile(DEFAULT_CUSTOMER_MOBILE).name(DEFAULT_CUSTOMER_NAME).password(DEFAULT_CUSTOMER_PASSWORD)
+				.phone(DEFAULT_CUSTOMER_PHONE).surname(DEFAULT_CUSTOMER_SURNAME).build();
 
 		customerDAO.save(customer);
 
@@ -58,7 +54,16 @@ public class CustomerDAOTest {
 		assertThat(found.getName()).isEqualTo(DEFAULT_CUSTOMER_NAME);
 		assertThat(found.getCustomerId()).isEqualTo(customerId);
 	}
-	
+
+	@Test
+	public void testFindBySurname() {
+		testSave();
+		List<Customer> customers = customerDAO.findBySurname(DEFAULT_CUSTOMER_SURNAME);
+
+		assertThat(customers).isNotEmpty();
+		assertThat(customers.get(0).getName().trim()).isEqualTo(DEFAULT_CUSTOMER_NAME);
+	}
+
 	@Test
 	public void testGetCustomerNames() {
 		List<CustomerNames> customerNames = customerDAO.findCustomerNames();

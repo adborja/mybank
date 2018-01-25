@@ -11,6 +11,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.NamedNativeQuery;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.SqlResultSetMapping;
 
 import com.itexchange.demo.mybank.domain.dto.CustomerNames;
@@ -31,21 +33,11 @@ import lombok.ToString;
 @Builder
 @ToString
 @Entity
-@NamedNativeQuery(
-	name = "find_cust_name_and_surname_dto",
-	query = "SELECT name, surname FROM customer",
-	resultSetMapping = "name_and_surname_dto"
-)
-@SqlResultSetMapping(
-	name = "name_and_surname_dto",
-	classes = @ConstructorResult(
-		targetClass = CustomerNames.class,
-		columns = {
-			@ColumnResult(name = "name"),
-			@ColumnResult(name = "surname")
-		}
-	)
-)
+@NamedNativeQuery(name = "find_cust_name_and_surname_dto", query = "SELECT name, surname FROM customer", resultSetMapping = "name_and_surname_dto")
+@SqlResultSetMapping(name = "name_and_surname_dto", classes = @ConstructorResult(targetClass = CustomerNames.class, columns = {
+		@ColumnResult(name = "name"), @ColumnResult(name = "surname") }))
+@NamedQueries({
+		@NamedQuery(name = "find_cust_by_surname", query = "SELECT c FROM Customer c WHERE surname = :surname") })
 public class Customer implements Serializable {
 
 	private static final long serialVersionUID = 1L;

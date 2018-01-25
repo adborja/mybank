@@ -73,5 +73,24 @@ public class ProductDAO extends BaseDAO {
 
 		return products;
 	}
+	
+	public List<Product> findAllInactive() {
+		String sqlQuery = "SELECT * FROM product WHERE status = 'INACTIVE'";
+		List<Object[]> result = entityManager.createNativeQuery(sqlQuery).getResultList();
+		
+		List<Product> products = new ArrayList<>();
+		
+		result.forEach(r -> {
+			Integer id = (Integer) r[0];
+			String name = (String) r[1];
+			String description = (String) r[2];
+			String status = (String) r[3];
+			
+			Product p = Product.builder().id(id).name(name).description(description).status(status).build();
+			products.add(p);
+		});
+		
+		return products;
+	}
 
 }
