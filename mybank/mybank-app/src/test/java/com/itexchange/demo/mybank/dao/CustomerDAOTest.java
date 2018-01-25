@@ -2,6 +2,8 @@ package com.itexchange.demo.mybank.dao;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import java.math.BigDecimal;
+import java.sql.Timestamp;
 import java.util.List;
 import java.util.Random;
 
@@ -11,15 +13,15 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
-import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import com.itexchange.demo.mybank.domain.Customer;
+import com.itexchange.demo.mybank.domain.CustomerProduct;
+import com.itexchange.demo.mybank.domain.Product;
 import com.itexchange.demo.mybank.domain.dto.CustomerNames;
 
 @RunWith(SpringRunner.class)
 @DataJpaTest
-@ActiveProfiles("test")
 public class CustomerDAOTest {
 
 	private static final String DEFAULT_CUSTOMER_EMAIL = "myemail@domain.com";
@@ -34,10 +36,14 @@ public class CustomerDAOTest {
 
 	private CustomerDAO customerDAO;
 
+	private ProductDAO productDAO;
+
 	@Before
 	public void before() {
 		customerDAO = new CustomerDAO();
 		customerDAO.setEntityManager(testEntityManager.getEntityManager());
+		productDAO = new ProductDAO();
+		productDAO.setEntityManager(testEntityManager.getEntityManager());
 	}
 
 	@Test
@@ -54,21 +60,39 @@ public class CustomerDAOTest {
 		assertThat(found.getName()).isEqualTo(DEFAULT_CUSTOMER_NAME);
 		assertThat(found.getCustomerId()).isEqualTo(customerId);
 	}
-
-	@Test
-	public void testFindBySurname() {
-		testSave();
-		List<Customer> customers = customerDAO.findBySurname(DEFAULT_CUSTOMER_SURNAME);
-
-		assertThat(customers).isNotEmpty();
-		assertThat(customers.get(0).getName().trim()).isEqualTo(DEFAULT_CUSTOMER_NAME);
-	}
-
+	
 	@Test
 	public void testGetCustomerNames() {
 		List<CustomerNames> customerNames = customerDAO.findCustomerNames();
 		assertThat(customerNames).isNotEmpty();
 		assertThat(customerNames.get(0).getName()).isEqualTo("John");
 		assertThat(customerNames.get(0).getSurname()).isEqualTo("Lydon");
+	}
+
+	@Test
+	public void testFindCustomersWithMoreThan() {
+		// Getting one customer
+		Customer customer = customerDAO.findByCustomerId("3012345");
+		
+		// Getting a product
+		Product product = productDAO.findByPrimaryKey(2);
+		
+		// Creating product for customer
+		CustomerProduct cp = CustomerProduct.builder()
+				.balance(BigDecimal.ZERO)
+				.creationDate(new Timestamp(System.currentTimeMillis()))
+				.customer(customer)
+				.product(product)
+				.productNumber("1000000004")
+				.status("ACTIVE")
+				.build();
+		CustomerProductDAO customerProductDAO = new CustomerProductDAO(customerDAO);
+		customerProductDAO.setEntityManager(testEntityManager.getEntityManager());
+		customerProductDAO.save(cp);
+		
+		List<Customer> customers = customerDAO.findCustomersWithMoreThan(2l);
+		assertThat(customers).isNotEmpty();
+		assertThat(customers.size()).isEqualTo(1);
+		assertThat(customers.get(0).getName()).isEqualTo("David");
 	}
 }

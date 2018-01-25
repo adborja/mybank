@@ -3,6 +3,7 @@ package com.itexchange.demo.mybank.dao;
 import java.util.List;
 
 import javax.persistence.Query;
+import javax.transaction.Transactional;
 
 import org.springframework.stereotype.Component;
 
@@ -43,5 +44,10 @@ public class CustomerProductDAO extends BaseDAO {
 
 		return customerProducts;
 	}
-
+	
+	@Transactional
+	public CustomerProduct save(CustomerProduct cp) {
+		entityManager.persist(cp);
+		return cp;
+	}
 }

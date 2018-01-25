@@ -1,5 +1,7 @@
 package com.itexchange.demo.mybank.dao;
 
+import java.util.List;
+
 import javax.persistence.Query;
 
 import org.springframework.stereotype.Component;
@@ -16,4 +18,15 @@ public class TransactionDAO extends BaseDAO {
 		Transaction transaction = (Transaction) query.getSingleResult();
 		return transaction;
 	}
+
+	public List<Transaction> getCustomerTransactions(String customerId) {
+		String strQuery = "SELECT t FROM Transaction t "
+				+ "JOIN t.customerProduct cp WHERE cp.customer.customerId = :custId";
+		Query query = entityManager.createQuery(strQuery);
+		query.setParameter("custId", customerId);
+		List<Transaction> result = query.getResultList();
+		return result;
+	}
+	
+	
 }

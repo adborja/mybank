@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.NoResultException;
+import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 import javax.transaction.Transactional;
 
@@ -17,8 +18,12 @@ public class ProductDAO extends BaseDAO {
 
 	@Transactional
 	public Product save(Product product) {
-		entityManager.merge(product);
+		entityManager.persist(product);
 		return product;
+	}
+	
+	public Product findByPrimaryKey(Integer id) {
+		return entityManager.find(Product.class, id);
 	}
 
 	public Product findByName(String name) throws ObjectNotFoundException {
