@@ -13,6 +13,7 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import com.itexchange.demo.mybank.domain.Customer;
@@ -22,10 +23,11 @@ import com.itexchange.demo.mybank.domain.dto.CustomerNames;
 
 @RunWith(SpringRunner.class)
 @DataJpaTest
+@ActiveProfiles("test")
 public class CustomerDAOTest {
 
 	private static final String DEFAULT_CUSTOMER_EMAIL = "myemail@domain.com";
-	private static final String DEFAULT_CUSTOMER_NAME = "name";
+	private static final String DEFAULT_CUSTOMER_NAME = "NOMBRE";
 	private static final String DEFAULT_CUSTOMER_SURNAME = "surname";
 	private static final String DEFAULT_CUSTOMER_MOBILE = "3009990099";
 	private static final String DEFAULT_CUSTOMER_PASSWORD = "1234";
@@ -47,11 +49,25 @@ public class CustomerDAOTest {
 	}
 
 	@Test
+	public void testFindLowerFullName() {
+
+		String customerId = "" + new Random().nextInt(100000);
+		Customer customer = Customer.builder().customerId(customerId).email(DEFAULT_CUSTOMER_EMAIL).mobile(DEFAULT_CUSTOMER_MOBILE)
+				.name(DEFAULT_CUSTOMER_NAME).password(DEFAULT_CUSTOMER_PASSWORD).phone(DEFAULT_CUSTOMER_PHONE).surname(DEFAULT_CUSTOMER_SURNAME)
+				.build();
+
+		customerDAO.save(customer);
+
+		CustomerNames found = customerDAO.findLowerFullName(customerId);
+		assertThat(found.getName()).isEqualTo(DEFAULT_CUSTOMER_NAME);
+	}
+
+	@Test
 	public void testSave() {
 		String customerId = "" + new Random().nextInt(100000);
-		Customer customer = Customer.builder().customerId(customerId).email(DEFAULT_CUSTOMER_EMAIL)
-				.mobile(DEFAULT_CUSTOMER_MOBILE).name(DEFAULT_CUSTOMER_NAME).password(DEFAULT_CUSTOMER_PASSWORD)
-				.phone(DEFAULT_CUSTOMER_PHONE).surname(DEFAULT_CUSTOMER_SURNAME).build();
+		Customer customer = Customer.builder().customerId(customerId).email(DEFAULT_CUSTOMER_EMAIL).mobile(DEFAULT_CUSTOMER_MOBILE)
+				.name(DEFAULT_CUSTOMER_NAME).password(DEFAULT_CUSTOMER_PASSWORD).phone(DEFAULT_CUSTOMER_PHONE).surname(DEFAULT_CUSTOMER_SURNAME)
+				.build();
 
 		customerDAO.save(customer);
 
@@ -60,7 +76,7 @@ public class CustomerDAOTest {
 		assertThat(found.getName()).isEqualTo(DEFAULT_CUSTOMER_NAME);
 		assertThat(found.getCustomerId()).isEqualTo(customerId);
 	}
-	
+
 	@Test
 	public void testGetCustomerNames() {
 		List<CustomerNames> customerNames = customerDAO.findCustomerNames();
@@ -73,23 +89,17 @@ public class CustomerDAOTest {
 	public void testFindCustomersWithMoreThan() {
 		// Getting one customer
 		Customer customer = customerDAO.findByCustomerId("3012345");
-		
+
 		// Getting a product
 		Product product = productDAO.findByPrimaryKey(2);
-		
+
 		// Creating product for customer
-		CustomerProduct cp = CustomerProduct.builder()
-				.balance(BigDecimal.ZERO)
-				.creationDate(new Timestamp(System.currentTimeMillis()))
-				.customer(customer)
-				.product(product)
-				.productNumber("1000000004")
-				.status("ACTIVE")
-				.build();
+		CustomerProduct cp = CustomerProduct.builder().balance(BigDecimal.ZERO).creationDate(new Timestamp(System.currentTimeMillis()))
+				.customer(customer).product(product).productNumber("1000000004").status("ACTIVE").build();
 		CustomerProductDAO customerProductDAO = new CustomerProductDAO(customerDAO);
 		customerProductDAO.setEntityManager(testEntityManager.getEntityManager());
 		customerProductDAO.save(cp);
-		
+
 		List<Customer> customers = customerDAO.findCustomersWithMoreThan(2l);
 		assertThat(customers).isNotEmpty();
 		assertThat(customers.size()).isEqualTo(1);
