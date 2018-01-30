@@ -9,7 +9,9 @@ import javax.transaction.Transactional;
 
 import org.springframework.stereotype.Component;
 
+import com.itexchange.demo.mybank.domain.CompanyCustomer;
 import com.itexchange.demo.mybank.domain.Customer;
+import com.itexchange.demo.mybank.domain.EmployeeCustomer;
 import com.itexchange.demo.mybank.domain.dto.CustomerNames;
 import com.itexchange.demo.mybank.dto.CustomerDto;
 import com.itexchange.demo.mybank.exception.ObjectNotFoundException;
@@ -74,14 +76,29 @@ public class CustomerDAO extends BaseDAO {
 	}
 
 	public List<CustomerNames> findCustomerNames() {
-		return entityManager.createNamedQuery("find_cust_name_and_surname_dto").getResultList();
+		return entityManager.createNamedQuery("find_cust_name_and_surname_dto", CustomerNames.class).getResultList();
 	}
 
 	public List<Customer> findCustomersWithMoreThan(Long numberOfProducts) {
-		String strQuery = "SELECT c FROM Customer c WHERE (SELECT count(cp) FROM CustomerProduct cp WHERE cp.customer = c) >= :numberOfProducts";
-		Query query = entityManager.createQuery(strQuery);
+		String strQuery = "SELECT c FROM Customer c WHERE "
+				+ "(SELECT count(cp) FROM CustomerProduct cp WHERE cp.customer = c) >= :numberOfProducts";
+		TypedQuery<Customer> query = entityManager.createQuery(strQuery, Customer.class);
 		query.setParameter("numberOfProducts", numberOfProducts);
 		List<Customer> customers = query.getResultList();
 		return customers;
+	}
+
+	public CompanyCustomer findCompanyCustomerByCompanyId(final String companyId) {
+		String strQuery = "SELECT c FROM CompanyCustomer c WHERE c.companyId = :companyId";
+		TypedQuery<CompanyCustomer> query = entityManager.createQuery(strQuery, CompanyCustomer.class);
+		query.setParameter("companyId", companyId);
+		return query.getSingleResult();
+	}
+
+	public EmployeeCustomer findEmployeeCustomerByEmployeeId(final String employeeId) {
+		String strQuery = "SELECT e FROM EmployeeCustomer e WHERE e.employeeId = :employeeId";
+		TypedQuery<EmployeeCustomer> query = entityManager.createQuery(strQuery, EmployeeCustomer.class);
+		query.setParameter("employeeId", employeeId);
+		return query.getSingleResult();
 	}
 }

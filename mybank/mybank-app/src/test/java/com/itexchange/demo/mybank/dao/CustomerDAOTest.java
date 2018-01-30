@@ -16,8 +16,10 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import com.itexchange.demo.mybank.domain.CompanyCustomer;
 import com.itexchange.demo.mybank.domain.Customer;
 import com.itexchange.demo.mybank.domain.CustomerProduct;
+import com.itexchange.demo.mybank.domain.EmployeeCustomer;
 import com.itexchange.demo.mybank.domain.Product;
 import com.itexchange.demo.mybank.domain.dto.CustomerNames;
 
@@ -104,5 +106,29 @@ public class CustomerDAOTest {
 		assertThat(customers).isNotEmpty();
 		assertThat(customers.size()).isEqualTo(1);
 		assertThat(customers.get(0).getName()).isEqualTo("David");
+	}
+	
+	@Test
+	public void testFindCompanyCustomerByCompanyId() {
+		String companyId = "4005002";
+		CompanyCustomer customer = customerDAO.findCompanyCustomerByCompanyId(companyId);
+		
+		assertThat(customer).isNotNull();
+		assertThat(customer.getCompanyId()).isEqualTo(companyId);
+		assertThat(customer.getName()).isEqualTo("itexchange.com");
+		assertThat(customer.getPhone()).isEqualTo("+5745110091");
+	}
+	
+	@Test
+	public void testFindEmployeeCustomerByEmployeeId() {
+		String employeeId = "90104";
+		EmployeeCustomer customer = customerDAO.findEmployeeCustomerByEmployeeId(employeeId);
+		
+		assertThat(customer).isNotNull();
+		assertThat(customer.getEmployeeId()).isEqualTo(employeeId);
+		assertThat(customer.getName()).isEqualTo("Thomas");
+		assertThat(customer.getSurname()).isEqualTo("Williams");
+		assertThat(customer.getEmail()).isEqualTo("thomas.williams@mybank.com");
+		assertThat(customer.getMobile()).isEqualTo("+57301000004");
 	}
 }
