@@ -107,23 +107,25 @@ public class CustomerDAOTest {
 		assertThat(customers.size()).isEqualTo(1);
 		assertThat(customers.get(0).getName()).isEqualTo("David");
 	}
-	
+
 	@Test
 	public void testFindCompanyCustomerByCompanyId() {
 		String companyId = "4005002";
 		CompanyCustomer customer = customerDAO.findCompanyCustomerByCompanyId(companyId);
-		
+
 		assertThat(customer).isNotNull();
 		assertThat(customer.getCompanyId()).isEqualTo(companyId);
 		assertThat(customer.getName()).isEqualTo("itexchange.com");
 		assertThat(customer.getPhone()).isEqualTo("+5745110091");
 	}
 	
+
+
 	@Test
 	public void testFindEmployeeCustomerByEmployeeId() {
 		String employeeId = "90104";
 		EmployeeCustomer customer = customerDAO.findEmployeeCustomerByEmployeeId(employeeId);
-		
+
 		assertThat(customer).isNotNull();
 		assertThat(customer.getEmployeeId()).isEqualTo(employeeId);
 		assertThat(customer.getName()).isEqualTo("Thomas");

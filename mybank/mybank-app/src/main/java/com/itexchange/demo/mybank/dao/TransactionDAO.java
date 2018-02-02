@@ -22,7 +22,7 @@ public class TransactionDAO extends BaseDAO {
 	public Transaction findCountTransactions(Integer customerId) {
 		String sqlQuery = "SELECT COUNT(1) FROM transaction JOIN t.customerProduct cp WHERE cp.customer.customerId = :custId";
 		Query query = entityManager.createNativeQuery(sqlQuery, Transaction.class);
-		query.setParameter(1, trxNumber);
+		query.setParameter(1, customerId);
 		Transaction transaction = (Transaction) query.getSingleResult();
 		return transaction;
 	}

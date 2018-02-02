@@ -12,6 +12,7 @@ import org.springframework.stereotype.Component;
 import com.itexchange.demo.mybank.domain.CompanyCustomer;
 import com.itexchange.demo.mybank.domain.Customer;
 import com.itexchange.demo.mybank.domain.EmployeeCustomer;
+import com.itexchange.demo.mybank.domain.SeniorCustomer;
 import com.itexchange.demo.mybank.domain.dto.CustomerNames;
 import com.itexchange.demo.mybank.dto.CustomerDto;
 import com.itexchange.demo.mybank.exception.ObjectNotFoundException;
@@ -80,8 +81,7 @@ public class CustomerDAO extends BaseDAO {
 	}
 
 	public List<Customer> findCustomersWithMoreThan(Long numberOfProducts) {
-		String strQuery = "SELECT c FROM Customer c WHERE "
-				+ "(SELECT count(cp) FROM CustomerProduct cp WHERE cp.customer = c) >= :numberOfProducts";
+		String strQuery = "SELECT c FROM Customer c WHERE " + "(SELECT count(cp) FROM CustomerProduct cp WHERE cp.customer = c) >= :numberOfProducts";
 		TypedQuery<Customer> query = entityManager.createQuery(strQuery, Customer.class);
 		query.setParameter("numberOfProducts", numberOfProducts);
 		List<Customer> customers = query.getResultList();
@@ -92,6 +92,13 @@ public class CustomerDAO extends BaseDAO {
 		String strQuery = "SELECT c FROM CompanyCustomer c WHERE c.companyId = :companyId";
 		TypedQuery<CompanyCustomer> query = entityManager.createQuery(strQuery, CompanyCustomer.class);
 		query.setParameter("companyId", companyId);
+		return query.getSingleResult();
+	}
+
+	public SeniorCustomer findSeniorCustomerByName(final String name) {
+		String strQuery = "SELECT sc FROM SeniorCustomer sc WHERE sc.name = :name";
+		TypedQuery<SeniorCustomer> query = entityManager.createQuery(strQuery, SeniorCustomer.class);
+		query.setParameter("name", name);
 		return query.getSingleResult();
 	}
 
