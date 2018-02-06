@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<entity-mappings xmlns="http://java.sun.com/xml/ns/persistence/orm"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/persistence/orm
+http://java.sun.com/xml/ns/persistence/orm_2_0.xsd"
+	version="2.0">
+	<entity class="com.itexchange.demo.jpa.domain.Customer" access="FIELD" name="customer">
+		<table name="customer" />
+		<attributes>
+			<id name="id" >
+				<generated-value strategy="AUTO"/>
+			</id>
+			<basic name="name" optional="false" />
+			<basic name="surname" optional="false"/>
+			<basic name="customerId" optional="false">
+				<column name="customer_id" length="15" />
+			</basic>
+			<basic name="email" optional="false"/>
+			<basic name="mobile" optional="false"/>
+			<basic name="phone" optional="false"/>
+			<basic name="password" optional="false"/>
+		</attributes>
+	</entity>
+</entity-mappings>

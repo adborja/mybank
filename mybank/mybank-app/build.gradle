@@ -1,0 +1,15 @@
+apply plugin: "org.springframework.boot"
+
+dependencies {
+	compile "org.springframework.boot:spring-boot-starter-web:${versions.springBoot}"
+	compile "org.springframework.boot:spring-boot-starter-data-jpa:${versions.springBoot}"
+	compile "mysql:mysql-connector-java:${versions.mysqlConnector}"
+	compile "org.springframework.security:spring-security-crypto:${versions.springCrypto}"
+	compile "com.fasterxml.jackson.datatype:jackson-datatype-guava"
+    compile "com.fasterxml.jackson.datatype:jackson-datatype-hibernate5"
+    compile "com.fasterxml.jackson.datatype:jackson-datatype-jsr310"
+    compile "org.flywaydb:flyway-core:${versions.flywaydb}"
+    
+    testCompile "org.springframework.boot:spring-boot-starter-test:${versions.springBoot}"
+    testCompile "com.h2database:h2:${versions.h2}"
+}
