@@ -3,8 +3,10 @@ package com.itexchange.demo.mybank.dao;
 import java.util.List;
 
 import javax.persistence.NoResultException;
-import javax.persistence.Query;
 import javax.persistence.TypedQuery;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Root;
 import javax.transaction.Transactional;
 
 import org.springframework.stereotype.Component;
@@ -78,6 +80,17 @@ public class CustomerDAO extends BaseDAO {
 
 	public List<CustomerNames> findCustomerNames() {
 		return entityManager.createNamedQuery("find_cust_name_and_surname_dto", CustomerNames.class).getResultList();
+	}
+
+	public List<Customer> findCustomerNamesCriteria() {
+
+		CriteriaBuilder cb = entityManager.getCriteriaBuilder();
+
+		CriteriaQuery<Customer> query = cb.createQuery(Customer.class);
+		Root<Customer> customer = query.from(Customer.class);
+		query.select(customer.get("name"));
+		query.select(customer.get("surname"));
+		return entityManager.createQuery(query).getResultList();
 	}
 
 	public List<Customer> findCustomersWithMoreThan(Long numberOfProducts) {

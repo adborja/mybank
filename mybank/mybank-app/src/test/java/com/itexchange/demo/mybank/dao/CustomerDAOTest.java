@@ -88,6 +88,14 @@ public class CustomerDAOTest {
 	}
 
 	@Test
+	public void testGetCustomerNamesCriteria() {
+		List<Customer> customer = customerDAO.findCustomerNamesCriteria();
+		assertThat(customer).isNotEmpty();
+		assertThat(customer.get(0).getName()).isEqualTo("John");
+		assertThat(customer.get(0).getSurname()).isEqualTo("Lydon");
+	}
+
+	@Test
 	public void testFindCustomersWithMoreThan() {
 		// Getting one customer
 		Customer customer = customerDAO.findByCustomerId("3012345");
@@ -118,8 +126,6 @@ public class CustomerDAOTest {
 		assertThat(customer.getName()).isEqualTo("itexchange.com");
 		assertThat(customer.getPhone()).isEqualTo("+5745110091");
 	}
-	
-
 
 	@Test
 	public void testFindEmployeeCustomerByEmployeeId() {
