@@ -9,6 +9,8 @@ dependencies {
     compile "com.fasterxml.jackson.datatype:jackson-datatype-hibernate5"
     compile "com.fasterxml.jackson.datatype:jackson-datatype-jsr310"
     compile "org.flywaydb:flyway-core:${versions.flywaydb}"
+    compile "io.rest-assured:rest-assured:${versions.restAssured}"
+   // compile "org.hibernate:hibernate-core:${versions.hibernate}"
     
     testCompile "org.springframework.boot:spring-boot-starter-test:${versions.springBoot}"
     testCompile "com.h2database:h2:${versions.h2}"

@@ -8,14 +8,11 @@ import java.util.List;
 import javax.persistence.TypedQuery;
 import javax.transaction.Transactional;
 
-import org.springframework.stereotype.Component;
-
 import com.itexchange.demo.mybank.domain.Customer;
 import com.itexchange.demo.mybank.domain.CustomerLoan;
 import com.itexchange.demo.mybank.domain.Loan;
 import com.itexchange.demo.mybank.util.Util;
 
-@Component
 public class CustomerLoanDAO extends BaseDAO {
 
 	@Transactional

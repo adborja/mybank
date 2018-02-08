@@ -1,6 +1,5 @@
 package com.itexchange.demo.mybank.service;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.itexchange.demo.mybank.dao.CustomerDAO;
@@ -11,8 +10,11 @@ import com.itexchange.demo.mybank.exception.ObjectNotFoundException;
 @Service
 public class CustomerService {
 
-	@Autowired
 	private CustomerDAO customerDAO;
+	
+	public CustomerService() {
+		customerDAO = new CustomerDAO();
+	}
 	
 	public void save(CustomerDto customer) {
 		customerDAO.save(new Customer(0, customer.getName(), customer.getSurname(), customer.getCustomerId(),

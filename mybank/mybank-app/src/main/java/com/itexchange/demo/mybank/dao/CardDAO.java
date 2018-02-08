@@ -4,11 +4,8 @@ import java.util.List;
 
 import javax.transaction.Transactional;
 
-import org.springframework.stereotype.Component;
-
 import com.itexchange.demo.mybank.domain.Card;
 
-@Component
 public class CardDAO extends BaseDAO {
 
 	@Transactional

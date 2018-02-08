@@ -21,7 +21,7 @@ public class PhysicalBranch extends Branch {
 	private String address;
 
 	private String phone;
-
+	
 	private LocalTime opensAt;
 
 	private LocalTime closesAt;

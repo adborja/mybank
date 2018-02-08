@@ -14,7 +14,8 @@ buildscript {
                 "mysqlConnector": "5.1.45",
                 "jacoco": "0.7.9",
                 "h2": "1.4.196",
-                "flywaydb": "5.0.2"
+                "flywaydb": "5.0.2",
+               	"restAssured": "3.0.5"
         ]
     }
     

@@ -9,8 +9,6 @@ import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 import javax.transaction.Transactional;
 
-import org.springframework.stereotype.Component;
-
 import com.itexchange.demo.mybank.domain.CompanyCustomer;
 import com.itexchange.demo.mybank.domain.Customer;
 import com.itexchange.demo.mybank.domain.EmployeeCustomer;
@@ -22,7 +20,6 @@ import com.itexchange.demo.mybank.exception.ObjectNotFoundException;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
-@Component
 public class CustomerDAO extends BaseDAO {
 
 	@Transactional

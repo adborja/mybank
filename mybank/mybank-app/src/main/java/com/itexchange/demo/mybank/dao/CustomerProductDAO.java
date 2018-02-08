@@ -5,12 +5,9 @@ import java.util.List;
 import javax.persistence.Query;
 import javax.transaction.Transactional;
 
-import org.springframework.stereotype.Component;
-
 import com.itexchange.demo.mybank.domain.Customer;
 import com.itexchange.demo.mybank.domain.CustomerProduct;
 
-@Component
 public class CustomerProductDAO extends BaseDAO {
 
 	private CustomerDAO customerDAO;
