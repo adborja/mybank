@@ -2,14 +2,29 @@ package com.itexchange.demo.mybank.dao;
 
 import java.util.List;
 
+import javax.persistence.PostPersist;
 import javax.persistence.Query;
+import javax.transaction.Transactional;
 
 import org.springframework.stereotype.Component;
 
 import com.itexchange.demo.mybank.domain.Transaction;
 
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
 @Component
 public class TransactionDAO extends BaseDAO {
+
+	@PostPersist
+	public void onPostPersist() {
+		log.info("New transaction has been created");
+	}
+
+	@Transactional
+	public void persist(Transaction transaction) {
+		entityManager.persist(transaction);
+	}
 
 	public Transaction findByTransactionNumber(Integer trxNumber) {
 		String sqlQuery = "SELECT * FROM transaction WHERE transaction_number = ?";

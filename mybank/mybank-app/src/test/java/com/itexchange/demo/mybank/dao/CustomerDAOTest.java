@@ -71,7 +71,7 @@ public class CustomerDAOTest {
 				.name(DEFAULT_CUSTOMER_NAME).password(DEFAULT_CUSTOMER_PASSWORD).phone(DEFAULT_CUSTOMER_PHONE).surname(DEFAULT_CUSTOMER_SURNAME)
 				.build();
 
-		customerDAO.save(customer);
+		customerDAO.persist(customer);
 
 		// Buscar empleado almacenado ...
 		Customer found = customerDAO.findByCustomerId(customerId);

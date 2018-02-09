@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.NoResultException;
-import javax.persistence.Query;
+import javax.persistence.PreUpdate;
 import javax.persistence.TypedQuery;
 import javax.transaction.Transactional;
 
@@ -13,15 +13,23 @@ import org.springframework.stereotype.Component;
 import com.itexchange.demo.mybank.domain.Product;
 import com.itexchange.demo.mybank.exception.ObjectNotFoundException;
 
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
 @Component
 public class ProductDAO extends BaseDAO {
+
+	@PreUpdate
+	public void preUpdate() {
+		log.info("Product  will be updated");
+	}
 
 	@Transactional
 	public Product save(Product product) {
 		entityManager.persist(product);
 		return product;
 	}
-	
+
 	public Product findByPrimaryKey(Integer id) {
 		return entityManager.find(Product.class, id);
 	}
@@ -30,8 +38,7 @@ public class ProductDAO extends BaseDAO {
 		String strQuery = "SELECT p FROM Product p WHERE p.name = :name";
 
 		try {
-			Product product = (Product) entityManager.createQuery(strQuery).setParameter("name", name)
-					.getSingleResult();
+			Product product = (Product) entityManager.createQuery(strQuery).setParameter("name", name).getSingleResult();
 			return product;
 		} catch (NoResultException e) {
 			throw new ObjectNotFoundException("Product not found with name: " + name);
@@ -78,23 +85,23 @@ public class ProductDAO extends BaseDAO {
 
 		return products;
 	}
-	
+
 	public List<Product> findAllInactive() {
 		String sqlQuery = "SELECT * FROM product WHERE status = 'INACTIVE'";
 		List<Object[]> result = entityManager.createNativeQuery(sqlQuery).getResultList();
-		
+
 		List<Product> products = new ArrayList<>();
-		
+
 		result.forEach(r -> {
 			Integer id = (Integer) r[0];
 			String name = (String) r[1];
 			String description = (String) r[2];
 			String status = (String) r[3];
-			
+
 			Product p = Product.builder().id(id).name(name).description(description).status(status).build();
 			products.add(p);
 		});
-		
+
 		return products;
 	}
 

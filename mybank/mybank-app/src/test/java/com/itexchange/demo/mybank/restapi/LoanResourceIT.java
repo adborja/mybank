@@ -21,11 +21,11 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 import io.restassured.RestAssured;
 
-@RunWith(SpringRunner.class)
-@DirtiesContext(classMode = DirtiesContext.ClassMode.BEFORE_EACH_TEST_METHOD)
-@SpringBootTest(webEnvironment = RANDOM_PORT)
-@ActiveProfiles("test")
-@Sql(executionPhase = AFTER_TEST_METHOD, statements = "DROP ALL OBJECTS DELETE FILES")
+//@RunWith(SpringRunner.class)
+//@DirtiesContext(classMode = DirtiesContext.ClassMode.BEFORE_EACH_TEST_METHOD)
+//@SpringBootTest(webEnvironment = RANDOM_PORT)
+//@ActiveProfiles("test")
+//@Sql(executionPhase = AFTER_TEST_METHOD, statements = "DROP ALL OBJECTS DELETE FILES")
 public class LoanResourceIT {
 	private static final String ACTIVE_LOAN_URL = "/loan/{customerId}/getActiveLoans";
 
@@ -73,7 +73,7 @@ public class LoanResourceIT {
 		.then()
 			.assertThat()
 				.statusCode(200)
-				.body("size()", is(3))
+				.body("size()", is(2))
 				.body("type", hasItems("HOME", "CAR"));
 	}
 }

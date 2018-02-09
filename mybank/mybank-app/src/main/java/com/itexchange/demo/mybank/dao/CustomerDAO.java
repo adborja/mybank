@@ -3,6 +3,7 @@ package com.itexchange.demo.mybank.dao;
 import java.util.List;
 
 import javax.persistence.NoResultException;
+import javax.persistence.PostPersist;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
@@ -22,10 +23,20 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class CustomerDAO extends BaseDAO {
 
+	@PostPersist
+	public void onPostPersist() {
+		log.info("New customer has been created");
+	}
+
 	@Transactional
 	public Customer save(Customer customer) {
 		entityManager.merge(customer);
 		return customer;
+	}
+
+	@Transactional
+	public void persist(Customer customer) {
+		entityManager.persist(customer);
 	}
 
 	public CustomerNames findLowerFullName(String customerId) {
