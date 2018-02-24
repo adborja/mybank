@@ -2,6 +2,8 @@ package com.itexchange.demo.mybank.dao;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import java.math.BigDecimal;
+import java.sql.Timestamp;
 import java.util.List;
 
 import org.junit.Before;
@@ -27,6 +29,22 @@ public class TransactionDAOTest {
 
 	private TransactionDAO transactionDAO;
 
+	@Test
+	public void testPersist() {
+		Transaction trx = Transaction.builder()
+		.amount(new BigDecimal(1000))
+		.id(1000)
+		.status("APROBADA")
+		.date(new Timestamp(System.currentTimeMillis()))
+		.transactionNumber(123)
+		.build();
+		
+		transactionDAO.persist(trx);
+		
+		Transaction newTrx = transactionDAO.findByTransactionNumber(123);
+		assertThat(newTrx).isNotNull();
+	}
+
 	@Before
 	public void before() {
 		transactionDAO = new TransactionDAO();
@@ -42,7 +60,7 @@ public class TransactionDAOTest {
 		assertThat(cp.getProductNumber()).isEqualTo("1000000003");
 		assertThat(cp.getCustomer().getCustomerId()).isEqualTo("3012345");
 	}
-	
+
 	@Test
 	public void testGetCustomerTransactions() {
 		List<Transaction> transactions = transactionDAO.getCustomerTransactions("3012345");

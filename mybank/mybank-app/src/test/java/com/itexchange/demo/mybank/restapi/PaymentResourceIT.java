@@ -73,11 +73,11 @@ public class PaymentResourceIT {
 								.statusCode(200)
 						.extract().body().asString();
 		
-		assertThat(result).contains("\"status\": \"APPROVED\"");
+		assertThat(result).contains("\"status\":\"APPROVED\"");
 		assertThat(result).contains("transaction_number");
-		assertThat(result).contains("\"customer_id\": \"3012345\"");
-		assertThat(result).contains("\"product_number\": \"1000000003\"");
-		assertThat(result).contains("\"channel\": \"POS\"");
+		assertThat(result).contains("\"customer_id\":\"3012345\"");
+		assertThat(result).contains("\"product_number\":\"1000000003\"");
+		assertThat(result).contains("\"channel\":\"POS\"");
 		assertThat(result).contains("\"date\"");
 	}
 	

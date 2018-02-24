@@ -21,9 +21,6 @@ import com.itexchange.demo.mybank.dto.StatusDto;
 import com.itexchange.demo.mybank.exception.ObjectNotFoundException;
 import com.itexchange.demo.mybank.service.CustomerService;
 
-import lombok.extern.slf4j.Slf4j;
-
-@Slf4j
 @RestController
 @RequestMapping(produces = APPLICATION_JSON_VALUE)
 class CustomerResource {
